@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="referrer" http-equiv="Access-Control-Allow-Origin" />
+		<meta name="viewport"
+			content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script src="js/mui.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header-bg">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">登录</h1>
+		</header>
+		<div class="mui-content">
+			<div class="zhuce">
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label>账　号：</label>
+						<input type="text" class="mui-input-clear" placeholder="请输入您的账号">
+					</div>
+					<div class="mui-input-row">
+						<label>密　码：</label>
+						<input type="password" class="mui-input-clear" placeholder="请输入您的密码">
+					</div>
+				</form>
+			</div>
+			<div class="zhuce-btn">
+				<button id="sub_btn1">登　录</button>
+				<p><a id="btn1" href="javascript:;">注册</a><a id="btn2" href="javascript:;" style="float:right">找回密码</a>
+				</p>
+			</div>
+		</div>
+	</body>
+	<script src="js/castapp.js"></script>
+	<script>
+		ca.init();
+		var subBtn1 = ca.id('sub_btn1');
+		var subBtn = ca.id('btn1');
+		subBtn.addEventListener('tap', function() {
+			ca.newInterface({
+				id: 'register',
+				url: 'login.html',
+			})
+		})
+
+		var subBtn2 = ca.id('btn2');
+		subBtn2.addEventListener('tap', function() {
+			ca.newInterface({
+				id: 'zhaohui',
+				url: 'zhaohui.html',
+			})
+		})
+		var btn = ca.id('sub_btn1');
+		var input = ca.tagName('input');
+		btn.addEventListener('tap', function() {
+			var phone = input['0'].value;
+			var password = input['1'].value;
+			if (password == '') {
+				ca.prompt('密码不能为空');
+				return;
+			} else {
+				login(phone, password);
+			}
+		})
+
+		function login(usr, pwd) {
+			mui.post('http://' + ip + '/denglu', {
+				username: usr,
+				pwd: pwd,
+			}, function(data) {
+				ca.prompt(data);
+				if (data == true) {
+					ca.prompt("成功");
+					mui.post('http://' + ip + '/gte', {
+						username: usr,
+					}, function(data) {
+						console.log(data);
+						setCookie("touxiang", data);
+						setCookie("zhanghao", usr);
+						ca.newInterface({
+							id: '',
+							url: 'wd.html',
+						})
+
+					})
+				} else {
+					ca.prompt("失败");
+				}
+			}, );
+		}
+
+		function getCookie(name) {
+			return window.localStorage.getItem(name);
+		}
+
+		function setCookie(name, value) {
+			window.localStorage.setItem(name, value);
+		}
+	</script>
+
+</html>

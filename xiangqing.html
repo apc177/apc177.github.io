@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "
+http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+	<head>
+		 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="referrer" http-equiv="Access-Control-Allow-Origin" />
+		<meta name="viewport"
+			content="no-referrer,width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="js/mui.js"></script>
+		<link href="css/video-js.min.css" rel="stylesheet">
+		<script src="js/video.min.js"></script>
+		<script src="js/template.js"></script>
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/iconfont.css" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-transparent ">
+			 <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a> 
+		</header>
+		<div class="mui-content">
+			<div id="ifame" class="xiangqing-img">
+			</div>
+			<div class="xiangqing-a">
+				<h4 id="biaoti" >视频</h4>
+				<p class="sy-a-p"><span id="look">0</span><span>播放量</span><span class="mui-icon iconfont icon-good"
+						style="font-size: 25px;" onclick="zan()"></span><span id="good">0</span><span
+						class="mui-icon iconfont icon-buzan" style="font-size: 25px;" onclick="cai()"></span><span
+						id="bad">0</span></p>
+			</div>
+			<h4
+				style="background: #f0f0f0;margin: 0px;padding: 10px;font-size: 14px;color: #666;border-bottom: 1px solid #d8d8d2;">
+				评论</h4>
+			<div id="templates1" class="mui-content" style="margin-bottom: 40px;"></div>
+			<script id="test2" type="text/html">
+			{{each list as item}}
+			<div class="xiangqing-b">
+				<div class="xiangqing-b-l">
+					<img src="{{item.yhtouxiang}}" />
+				</div>
+				<div class="xiangqing-b-r" >
+					<p>{{item.yhname}}<div onclick="gz('{{item.yhname}}','{{item.yhtouxiang}}')" class="mui-icon iconfont icon-fensi"></div></p>
+					<span>{{item.shijian}}</span>
+					<h4>{{item.plneirong}}</h4>
+				</div>
+			</div>
+			{{/each}}
+			</script>
+		</div>
+		<div class="xiangqing-c">
+			<div class="xiangqing-c-l">
+				<input type="text" placeholder="评论" />
+			</div>
+			<div class="xiangqing-c-r">
+				<span id="pinglun" class="mui-icon iconfont icon-xiaoxi"></span><span id="shoucang"
+					class="mui-icon iconfont icon-shoucang2"></span><span class="mui-icon iconfont icon-forward-null
+" style="font-size: 20px;" onclick="hq()"></span>
+			</div>
+		</div>
+		</div>
+	</body>
+
+</html>
+<script src="js/castapp.js"></script>
+<script>
+	ca.init();
+	var btn = ca.id('pinglun');
+	var input = ca.tagName('input');
+	var btn1 = ca.id('shoucang');
+	var bt2=ca.id("")
+	document.getElementById('biaoti').innerHTML = getCookie("biaoti");
+	document.getElementById('look').innerHTML = getCookie("look");
+	document.getElementById('good').innerHTML = getCookie("good");
+	document.getElementById('bad').innerHTML = getCookie("bad");
+	btn.addEventListener('tap', function() {
+		var pinglun1 = input['0'].value;
+		register(getCookie("id"), getCookie("zhanghao"), getCookie("touxiang"), pinglun1, new Date()
+			.toLocaleString());
+	})
+	function hq(){
+		ca.newInterface({
+			url: 'sp.html',
+			id: '',
+		})
+	}
+	
+	btn1.addEventListener('tap', function() {
+		console.log(222);
+		mui.post('http://' + ip + '/sc1', {
+			scname: getCookie("biaoti"),
+			scsj: new Date().toLocaleString(),
+			sctupian: getCookie("fm"),
+			scren: getCookie("zhanghao"),
+			sczhengwen: getCookie("video"),
+			scliulan:getCookie("look"),
+			sczan:getCookie("good"),
+			sccai:getCookie("bad"),
+			scspid:getCookie("id"),
+			screntx:getCookie("touxiang"),
+		}, function(data) {
+			if (data == true) ca.prompt("收藏成功");
+			else {
+				ca.prompt("收藏失败");
+			}
+		})
+	})
+	mui.post('http://' + ip + '/pl1', {
+		spid: parseInt(getCookie("id")),
+	}, function(data) {
+		var datass = {
+			list: data
+		};
+		console.log(data);
+		var html = template('test2', datass);
+		document.getElementById('templates1').innerHTML = html;
+	}, );
+	function gz(gzname,gztouxiang){
+		if(gzname==getCookie("zhanghao")){ca.prompt("不能关注自己");return;}
+		mui.post('http://' + ip + '/gz1', {
+			woname:getCookie("zhanghao"),
+			wotouxiang:getCookie("touxiang"),
+			gzname:gzname,
+			gztouxiang:gztouxiang,
+			},function(data){
+				if(data==true)ca.prompt("关注成功！");
+				else ca.prompt("关注失败！");
+			})
+	};
+	function register(spid, yhname, yhtouxiang, plneirong, shijian) {
+		mui.post('http://' + ip + '/pl2', {
+				spid: parseInt(spid),
+				yhname: yhname,
+				yhtouxiang: yhtouxiang,
+				plneirong: plneirong,
+				shijian: shijian,
+			}, function(data) {
+				console.log(yhname, yhtouxiang, plneirong, shijian);
+				mui.post('http://' + ip + '/pl1', {
+					spid: parseInt(spid),
+				}, function(data) {
+					var datass = {
+						list: data
+					};
+					console.log(data);
+					var html = template('test2', datass);
+					document.getElementById('templates1').innerHTML = html;
+					input['0'].value = "";
+				}, );
+			},
+
+		);
+	}
+
+	function getQueryString(name) {
+		var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) {
+			return unescape(r[2]);
+		}
+		return null;
+	}
+	var iframe = document.createElement('iframe');
+	iframe['src'] = getCookie("video");
+	iframe['width'] = 370;
+	iframe['height'] = 200;
+	var id = getCookie("id");
+	mui.post('http://' + ip + '/xiangqing1?id=' + id);
+	document.getElementById("ifame").appendChild(iframe);
+	
+	function zan() {
+		document.getElementById('good').innerHTML = parseInt(document.getElementById('good').innerHTML) + 1;
+		setCookie('good', document.getElementById('good').innerHTML);
+		mui.post("http://"+ip+"/xiangqing2?id=" + id);
+		setCookie("")
+	}
+
+	function cai() {
+		document.getElementById('bad').innerHTML = parseInt(document.getElementById('bad').innerHTML) + 1;
+		setCookie('bad', document.getElementById('bad').innerHTML);
+		mui.post("http://"+ip+"/xiangqing3?id=" + id,{},function(data){
+			
+		});
+	}
+
+
+	function getCookie(name) {
+		return window.localStorage.getItem(name);
+	}
+
+	function setCookie(name, value) {
+		window.localStorage.setItem(name, value);
+	}
+</script>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<script src="js/mui.js"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header-bg">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">设置</h1>
+		</header>
+		<div class="mui-content">
+			<div class="shezhi-a">
+				<ul class="mui-table-view">
+						<li id="zl" class="mui-table-view-cell">
+							<a class="mui-navigate-right">
+								编辑资料
+							</a>
+						</li>
+						
+						<li class="mui-table-view-cell" onclick="gengxin()">
+							<a class="mui-navigate-right">
+								版本更新
+							</a>
+						</li>
+						
+					</ul>
+					<div class="zhuce-btn">
+						<button id="tuichu" onclick="o()">退出</button>
+					</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/castapp.js"></script>
+		<script type="text/javascript">
+			ca.init();
+			function gengxin()
+			{
+				ca.prompt("已是最新版本");
+			}
+			var zl=ca.id('zl');
+			function o()
+			{
+				setCookie("zhanghao","");
+				setCookie("touxiang","");
+				ca.newInterface({
+					id:'',
+					url:'sy.html'
+				});
+			}
+			function checkLogin1(){
+				if(getCookie("zhanghao")!=null)
+				return true;
+				else
+				return false;
+			}
+			zl.addEventListener('tap',function(){
+				if(checkLogin1()){
+					ca.newInterface({
+						id:'login',
+						url:'gxren.html'
+					});
+				}
+			});
+			function getCookie(name) {
+				return window.localStorage.getItem(name);
+			}
+			function setCookie(name, value) {
+				window.localStorage.setItem(name,value);
+			}
+		</script> 
+	</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "
+http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script src="js/mui.js"></script>
+		<script src="js/template.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header-bg">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title" onclick="x()">视频</h1>
+		</header>
+		<div id="templates" class="mui-content"></div>
+		<script id="test1" type="text/html">
+		{{each list as item,j}} 
+		 <div class="sp">
+			<div class="sp-a" id="sp" onclick="xq({{j}})">
+				<div class="sp-a-t">
+					<h3>{{item.name}}</h4>
+					<img id="uuu" src="{{item.fm}}"/>
+				</div>
+				<div class="sp-a-b">
+					<div class="sp-a-b-r">
+						<h6 style="margin: 0.625rem">
+							<span class="sp-a-b-r-spl">{{item.look}}</span><span>次访问　　　　　　　　　　　　　　　　　</span>
+							<span class="sp-a-b-r-spr">
+								<span>{{item.good}}</span><span> 点赞</span>
+								<span>{{item.bad}}</span><span> 踩</span>
+								<span class=""></span>
+							</span>
+						</h6>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{/each}} 
+	</script>
+
+
+	</body>
+	<script type="text/javascript" src="js/castapp.js"></script>
+	<script type="text/javascript">
+		ca.init();
+		var datt;
+		mui.post('http://'+ip+'/sp1', {}, function(data) {
+			var datas = {
+				list: data
+			};
+			datt=data;
+			var html = template('test1', datas);
+			document.getElementById('templates').innerHTML = html;
+		}, );
+		var sp = ca.id('sp');
+		function getCookie(name) {
+			return window.localStorage.getItem(name);
+		}
+		function setCookie(name, value) {
+			window.localStorage.setItem(name,value);
+		}
+		function x(){
+			ca.newInterface({
+				url: 'sy.html',
+				id: 'xiangqing',
+			})
+		}
+		function xq(j){
+			setCookie("video", datt[j].neirong);
+			setCookie("biaoti",datt[j].name);
+			setCookie("look",datt[j].look);
+			setCookie("good",datt[j].good);
+			setCookie("bad",datt[j].bad);
+			setCookie("id",datt[j].id);
+			setCookie("fm",datt[j].fm);
+			ca.newInterface({
+				url: 'xiangqing.html',
+				id: 'xiangqing',
+			})
+		}
+		
+	</script>
+</html>

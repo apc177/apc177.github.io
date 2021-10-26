@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<script src="js/mui.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header-bg">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">发表</h1>
+		</header>
+		<div class="mui-content">
+			<div class="fwz-a">
+				<input id="fb1" type="text" placeholder="请输入标题">
+				<input id="fb4" type="text" placeholder="请输入封面">
+				<input id="fb3" type="text" placeholder="请输入摘要">
+				<form>
+					<textarea id="fb2" cols="80" rows="5" placeholder="请输入文本"></textarea>
+				</form>
+				
+				<button class="yi-btn" onclick="fabiao()">发表</button>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/castapp.js"></script>
+		<script type="text/javascript">
+			ca.init();
+			function fabiao()
+			{
+				var fbb1=ca.id('fb1').value;
+				var fbb2=ca.id('fb2').value;
+				var fbb3=ca.id('fb3').value;
+				var fbb4=ca.id('fb4').value;
+				mui.post('http://'+ip+'/fwz', {
+					xstouxiang:fbb4,
+					xsbiaoti: fbb1,
+					xszhengwen: fbb2,
+					xsjj:fbb3,
+					xszuozhe:getCookie("zhanghao"),
+					xstp:getCookie("touxiang"),
+				}, function(data) {
+				ca.newInterface({
+					url: 'gz.html',
+					id: 'xi',
+				})
+				})
+			}
+			function getCookie(name) {
+				return window.localStorage.getItem(name).toString();
+			}
+			function setCookie(name, value) {
+				window.localStorage.setItem(name,value);
+			}
+		</script>
+	</body>
+
+</html>

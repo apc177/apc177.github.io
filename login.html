@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<script src="js/mui.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header-bg">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">注册</h1>
+		</header>
+		<div class="mui-content">
+			<div class="zhuce">
+				<form class="mui-input-group" action="javascript:;">
+					<div class="mui-input-row">
+						<label>账　号：</label>
+						<input type="text" class="mui-input-clear" placeholder="请输入您的邮箱">
+					</div>
+					<div class="mui-input-row">
+						<label>验证码：</label>
+						<input type="text" placeholder="请输入验证码">
+						<button class="btn" id="send_code">获取验证码</button>
+					</div>
+					<div class="mui-input-row">
+						<label>密　码：</label>
+						<input type="password" class="mui-input-clear" placeholder="请输入您的密码">
+					</div>
+				</form>
+			</div>
+			<div class="zhuce-btn">
+				<button id="btn">注　册</button>
+				<p><a href="denglu.html" class="mui-action-back">登录</a><a href="javascript:;" id="btn3" style="float:right">修改密码</a></p>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="js/castapp.js"></script>
+	<script>
+		ca.init();
+		var subBtn3=ca.id('btn3');
+		subBtn3.addEventListener('tap',function(){
+			ca.newInterface({
+				id:'zhaohui',
+				url:'zhaohui.html',
+			})
+		})
+		var btn=ca.id('btn');
+		var send_code=ca.id('send_code');
+		var input=ca.tagName('input');
+		var code='';
+		send_code.addEventListener('tap',function(){
+			if(send_code.innerHTML!='获取验证码'){
+				return;
+			}
+			var phone=input[0].value;
+			code=ca.getIdCode(6);
+			mui.post('http://'+ip+'/sendmail',{
+					email:phone,
+					code:code,
+				},function(data){
+					console.log(data)
+					var num = 60;
+					var timer= setInterval(function(){
+						num--;
+						if(num==0){
+							send_code.innerHTML='获取验证码';
+							clearInterval(timer);
+						}
+						else{
+							send_code.innerHTML=num+'S';
+						}
+					},1000);
+				},
+			);
+		})
+		
+		btn.addEventListener('tap',function(){
+			var phone=input['0'].value;
+			var input_code=input['1'].value;
+			var password=input['2'].value;
+			if(input_code==''){
+				ca.prompt('验证码不能空');
+				return;
+			}
+			if(input_code!=code){
+				ca.prompt('验证码不正确');
+				return;
+			}
+			if(password==''){
+				ca.prompt('密码不能为空');
+				return;
+			}
+			else
+			{
+				register(phone,password);
+				btn.addEventListener('tap',function(){
+					ca.newInterface({
+						url:'denglu.html',
+						id:'denglu',
+					})
+				})
+			}
+		})
+		
+		function register(usr,pwd){
+			mui.post('http://'+ip+'/zhuce',{
+					username:usr,
+					pwd:pwd,
+				},function(data){
+					console.log(data);
+				},
+			);
+		}
+		function getCookie(name) {
+			return window.localStorage.getItem(name);
+		}
+		function setCookie(name, value) {
+			window.localStorage.setItem(name,value);
+		}
+	</script>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="referrer"  http-equiv="Access-Control-Allow-Origin" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script src="js/mui.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header-bg">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">修改资料</h1>
+		</header>
+		<div class="mui-content">
+			<div class="zhuce">
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label>新头像：</label>
+						<input id="ttx" type="text"  placeholder="请输入头像链接">
+						<button class="btn" id="send_tx">修改头像</button>
+					</div>
+					<div class="mui-input-row">
+						<label>新名称：</label>
+						<input id="zzh" type="password"  placeholder="请输入新账户名">
+						<button class="btn" id="send_zh">修改账号</button>
+					</div>
+				</form>
+			</div>
+			
+	</body>
+	<script src="js/castapp.js"></script>
+	<script>
+		ca.init();
+		var tx1=ca.id('send_tx');
+		var zh1=ca.id('send_zh');
+		tx1.onclick=function(){
+			var tx=ca.id('ttx').value;
+			if(tx==''){
+				ca.prompt('头像不能为空');
+			}
+			else
+			{
+				updates1();
+				ca.prompt('修改成功');
+				setCookie("touxiang",tx);
+			}
+		};
+		zh1.onclick=function(){
+			var zh=ca.id('zzh').value;
+			if(zh==''){
+				ca.prompt('账户名字不能为空');
+			}
+			else
+			{
+				updates2();
+				ca.prompt('修改成功');
+				setCookie("zhanghao", zh);
+			}
+		};
+		function updates1(){
+			mui.post('http://'+ip+'/gx1',{
+					username:getCookie("zhanghao"),
+					picture:ca.id('ttx').value,
+				},function(data){
+					console.log(data);
+				},
+			);
+		}
+		function updates2(){
+			mui.post('http://'+ip+'/gx2',{
+					username:ca.id('zzh').value,
+					picture:getCookie("touxiang"),
+				},function(data){
+					console.log(data);
+				},
+			);
+		}
+		function getCookie(name) {
+			return window.localStorage.getItem(name);
+		}
+		function setCookie(name, value) {
+			window.localStorage.setItem(name,value);
+		}
+	</script>
+
+</html>

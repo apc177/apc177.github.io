@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport"
+			content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script src="js/mui.js"></script>
+		<script src="js/template.js"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header-bg">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">收藏</h1>
+		</header>
+		<div id="templates" class="mui-content"></div>
+		<script id="test1" type="text/html">
+		{{each list as item,i}}
+		<div class="mui-content" onclick="xq({{i}})">
+			<div class="sy">
+				<div class="sy-a">
+					<div class="sy-a-l">
+						<h4>
+							{{item.scjj}}
+						</h4>
+					</div>
+					{{if item.sctupian!="null"}}
+					<div class="sy-a-r">
+						<img src="{{item.sctupian}}" />
+					</div>
+					{{/if}}
+					<p class="sy-a-p">
+						<span>{{item.scname}}</span><span>{{item.scsj}}</span>
+					</p>
+				</div>
+			</div>
+		</div>
+		</div>
+		{{/each}}
+		</script>
+	</body>
+	<script src="js/castapp.js"></script>
+	<script>
+		ca.init();
+		var datass;
+		function getCookie(name) {
+			return window.localStorage.getItem(name);
+		}
+
+		function setCookie(name, value) {
+			window.localStorage.setItem(name, value);
+		}
+		mui.post('http://' + ip + '/sc2', {
+			scren: getCookie("zhanghao"),
+		}, function(data) {
+			var datas = {
+				list: data
+			};
+			datass=data;
+			var html = template('test1', datas);
+			document.getElementById('templates').innerHTML = html;
+		}, );
+		
+		function xq(i) {
+			if(datass[i].scjj==null)
+			{
+				setCookie("video", datass[i].sczhengwen);
+				setCookie("biaoti",datass[i].scname);
+				setCookie("look",datass[i].scliulan);
+				setCookie("good",datass[i].sczan);
+				setCookie("bad",datass[i].sccai);
+				setCookie("id",datass[i].scspid);
+				setCookie("fm",datass[i].sctupian);
+				ca.newInterface({
+					url: 'xiangqing.html',
+					id: 'xiangqing',
+				})
+			}
+			else{
+				setCookie("xsjj",datass[i].scjj);
+				setCookie("xstouxiang",datass[i].sctupian);
+				setCookie("xsbiaoti",datass[i].scname);
+				setCookie("xszhengwen",datass[i].sczhengwen);
+				ca.newInterface({
+					url: 'guanzhuxiangqing.html',
+					id: '',
+				})
+			}
+			
+		}
+	</script>
+
+</html>

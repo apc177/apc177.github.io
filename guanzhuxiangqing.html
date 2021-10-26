@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="css/iconfont.css"/>
+	<script src="js/mui.min.js"></script>
+	<script src="js/mui.js"></script>
+	<style type="text/css">
+		.my-img h4{
+			text-align: center;
+			font-size: 15px;
+			font-weight: 600;
+		}
+		.my-img p{
+			text-align: center;
+			color: #666;
+			font-size: 13px;
+		}
+	</style>
+</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header-bg">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<a id="sc"class=" mui-icon iconfont mui-pull-right icon-shoucang2 tu-yi"></a>
+			<h1 class="mui-title">文章内容</h1>
+		</header>
+		<div class="mui-content">
+			<div class="my-img">
+				<img id="xs0"style="margin: 20px auto 10px;"  src="img/1.png" />
+				<h4 id="xs1">毛纪</h4>
+		</div>
+		<div id="xs3"></div>
+		</div>
+		<script src="js/castapp.js"></script>
+		<script>
+			ca.init();
+			var subBtn= ca.id('sc');
+			subBtn.addEventListener('click', function() {
+				mui.post('http://'+ip+'/sc1', {
+						scname: getCookie("xsbiaoti"),
+						scjj: getCookie("xsjj"),
+						scsj: new Date().toLocaleString(),
+						sctupian: getCookie("xstouxiang"),
+						scren: getCookie("zhanghao"),
+						sczhengwen:getCookie("xszhengwen"),
+						scliulan:0,
+						sczan:0,
+						sccai:0,
+						scspid:0,
+						screntx:getCookie("touxiang"),
+					}, function(data) {
+						if (data==true)ca.prompt("收藏成功");
+						else{ ca.prompt("收藏失败");}
+					})
+			}); 
+				
+			ca.id('xs0').src=getCookie("xstouxiang");
+			ca.id('xs1').innerText=getCookie("xsbiaoti");
+			ca.id('xs3').innerText=getCookie("xszhengwen");
+			function getCookie(name) {
+				return window.localStorage.getItem(name);
+			}
+			function setCookie(name, value) {
+				window.localStorage.setItem(name,value);
+			}
+		</script>
+	</body>
+
+</html>

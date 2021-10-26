@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<script src="js/mui.js"></script>
+		<script src="js/template.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header-bg">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的发表</h1>
+		</header>
+		<div class="mui-content">
+		<div class="fen-a">
+			<div id="templates" class="mui-content"></div>
+			<script id="test1" type="text/html">
+			{{each list as item,i}} 
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media" >
+					<a  onclick="tiaozhuan('{{i+1}}')">
+						<img class="mui-media-object mui-pull-left" src="{{item.xstouxiang}}">
+						<div class="mui-media-body">
+							{{item.xsbiaoti}}
+							<p class="mui-ellipsis">{{item.xsjj}}</p>
+						</div>
+					</a>
+				</li>
+			</ul>
+			{{/each}} 
+			</script>
+		</div>
+		</div>
+		<script type="text/javascript" src="js/castapp.js"></script>
+		<script type="text/javascript">
+			ca.init();
+			var lists
+			mui.post('http://'+ip+'/xsw', {
+				xszuozhe:getCookie("zhanghao"),
+			}, function(data) {
+				var datas = {
+					list: data
+				};
+			 lists=data;
+				var html = template('test1', datas);
+				document.getElementById('templates').innerHTML = html;
+			}, );
+			
+			function tiaozhuan(xsid)
+			{
+				xsid=parseInt(xsid);
+				console.log(lists[xsid-1]);
+				setCookie("xsjj",lists[xsid-1].xsjj);
+				setCookie("xstouxiang",lists[xsid-1].xstouxiang);
+				setCookie("xsbiaoti",lists[xsid-1].xsbiaoti);
+				setCookie("xszhengwen",lists[xsid-1].xszhengwen);
+				ca.newInterface({
+					url: 'guanzhuxiangqing.html',
+					id: 'xiangqing',
+				})
+			}
+			function getCookie(name) {
+				return window.localStorage.getItem(name);
+			}
+			function setCookie(name, value) {
+				window.localStorage.setItem(name,value);
+			}
+		</script>
+	</body>
+</html>

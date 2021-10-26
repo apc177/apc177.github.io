@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="css/iconfont.css"/>
+		<link href="css/video-js.min.css" rel="stylesheet">
+		<script src="js/video.min.js"></script>
+		<script src="js/mui.js"></script>
+	</head>
+	<body>
+		<header id="bb" class="mui-bar mui-bar-nav header-bg">
+			<a  class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="h1" class="mui-title">我的</h1>
+		</header>
+		<div class="mui-content">
+			<div class="my-img">
+				<img id="tt" style="margin: 20px auto 10px;" src="img/1.png" />
+				<p id="name" style="text-align: center;font-size: 15px;font-weight: 600;"></p>
+			</div>
+			
+			<div class="my-a">
+				<div class="my-a-l">
+					<span class="mui-icon iconfont icon-shoucang2 tu-yi"></span>
+					<p>收藏</p>
+				</div>
+				<div class="my-a-l">
+					<span class="mui-icon iconfont icon-xiaoxi tu-er"></span>
+					<p>关注</p>
+				</div>
+				<div class="my-a-l">
+					<span class="mui-icon iconfont icon-shezhi tu-san"></span>
+					<p>设置</p>
+				</div>
+				<div class="my-a-l">
+					<span class="mui-icon iconfont icon-huodong tu-si"></span>
+					<p>活动</p>
+				</div>
+				<div class="my-a-l">
+					<span class="mui-icon iconfont icon-yijian tu-wu"></span>
+					<p>反馈意见</p>
+				</div>
+				<div class="my-a-l">
+					<span class="mui-icon iconfont icon-kefu tu-liu"></span>
+					<p>客服</p>
+				</div>
+				<div class="my-a-l">
+					<span class="mui-icon iconfont icon-fensi tu-qi"></span>
+					<p>粉丝</p>
+				</div>
+				<div class="my-a-l">
+					<span class="mui-icon iconfont icon-fawen tu-ba"></span>
+					<p>写文章</p>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/castapp.js"></script>
+		<script type="text/javascript">
+			
+			ca.init();
+			document.getElementById('name').innerHTML=window.localStorage.getItem('zhanghao');
+			document.getElementById('tt').src=window.localStorage.getItem('touxiang');
+			var info=ca.className('my-img')[0];
+			var div=ca.className('my-a-l');
+			var name=ca.id('h1');
+			var subBtn0=ca.id('bb');
+			subBtn0.addEventListener('tap',function(){
+				ca.newInterface({
+					id:'shouye',
+					url:'sy.html',
+				})
+			})
+			info.addEventListener('tap',function(){
+				
+					ca.newInterface({
+						id:'login',
+						url:'denglu.html'
+					});
+			});
+			
+			function checkLogin(){
+				if(getCookie("zhanghao")!="")
+				return true;
+				else
+				return false;
+			}
+			div[0].addEventListener('tap',function(){
+				ca.newInterface({
+					url:'shoucang.html',
+					id:'shoucang',
+				})
+			})
+			div[1].addEventListener('tap',function(){
+				ca.newInterface({
+					url:'xiaoxi.html',
+					id:'gaunzhu',
+				})
+			})
+			div[2].addEventListener('tap',function(){
+				ca.newInterface({
+					url:'shezhi.html',
+					id:'shezhi',
+				})
+			})
+			div[3].addEventListener('tap',function(){
+				ca.newInterface({
+					url:'huodong.html',
+					id:'huodong',
+				})
+			})
+			div[4].addEventListener('tap',function(){
+				ca.newInterface({
+					url:'yijian.html',
+					id:'yijian',
+				})
+			})
+			div[5].addEventListener('tap',function(){
+				ca.prompt("请打电话:'15617585130'");
+			})
+					
+			div[6].addEventListener('tap',function(){
+				ca.newInterface({
+					url:'fensi.html',
+					id:'fensi',
+				})
+				
+			})
+			div[7].addEventListener('tap',function(){
+				ca.newInterface({
+					url:'fawenzhang.html',
+					id:'fawenzhang',
+					
+				})
+			})
+			function getCookie(name) {
+				return window.localStorage.getItem(name);
+			}
+			function setCookie(name, value) {
+				window.localStorage.setItem(name,value);
+			}
+
+		</script>
+	</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "
+http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport"
+			content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script src="js/mui.js"></script>
+		<script src="js/template.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header-bg">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的评论</h1>
+		</header>
+		<div id="templates1" class="mui-content" style="margin-bottom: 40px;"></div>
+			<script id="test2" type="text/html">
+			{{each list as item}}
+			<div class="xiangqing-b">
+				<div class="xiangqing-b-l">
+					<img src="{{item.yhtouxiang}}" />
+				</div>
+				<div class="xiangqing-b-r" >
+					<p>{{item.yhname}}<div onclick="gz('{{item.yhname}}','{{item.yhtouxiang}}')" class="mui-icon iconfont icon-fensi"></div></p>
+					<span>{{item.shijian}}</span>
+					<h4>{{item.plneirong}}</h4>
+				</div>
+			</div>
+			{{/each}}
+			</script>
+		</div>
+	</body>
+</html>
+<script src="js/castapp.js"></script>
+<script>
+	ca.init();
+	mui.post('http://' + ip + '/plw', {
+		yhname:getCookie("zhanghao"),
+	}, function(data) {
+		var datass = {
+			list: data
+		};
+		console.log(data);
+		var html = template('test2', datass);
+		document.getElementById('templates1').innerHTML = html;
+	}, );
+
+	function getCookie(name) {
+		return window.localStorage.getItem(name);
+	}
+	function setCookie(name, value) {
+		window.localStorage.setItem(name, value);
+	}
+</script>
