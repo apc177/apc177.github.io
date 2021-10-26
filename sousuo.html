@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "
+http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<script src="js/mui.js"></script>
+		<script src="js/template.js"></script>
+		<style type="text/css">
+			.mui-title input{
+				height: 27px;
+				border: 0px;
+				font-size: 16px;
+			}
+			.so{
+				height: 50px;
+				padding: 10px;
+				overflow: hidden;
+			}
+			.so-l{
+				width: 80%;
+				float: left;
+				line-height: 30px;
+			}
+			.so-l input{
+				height: 27px;
+				border: 0px;
+				font-size: 13px;
+			}
+			.so-r{
+				width: 20%;
+				float: left;
+				text-align: center;
+				line-height: 32px;
+			}
+			.so-r span{
+				font-size: 14px;
+				color: #007AFF;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mui-content">
+			<div class="so">
+				<div class="so-l">
+					<input type="text" id="ss" onkeydown="enter()" placeholder="按回车进行搜索"/>
+				</div>
+				<div class="so-r">
+					<span class="mui-action-back">取消</span>
+				</div>
+			</div>
+		</div>
+		<div class="mui-content">
+		<div class="fen-a">
+			<div id="templates2" class="mui-content"></div>
+			<script id="test2" type="text/html">
+			{{each list as item}} 
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media" id="li">
+					<a  onclick="tiaozhuan('{{item.xsid}}')">
+						<img class="mui-media-object mui-pull-left" src="{{item.xstouxiang}}">
+						<div class="mui-media-body">
+							{{item.xsbiaoti}}
+							<p class="mui-ellipsis">{{item.xsjj}}</p>
+						</div>
+					</a>
+				</li>
+			</ul>
+			{{/each}} 
+			</script>
+		</div>
+		</div>
+		
+		<div id="templates1" class="sy-b sy-b-img"></div>
+		<script id="test1" type="text/html">
+		{{each list as item,j}}
+		<div class="sy" onclick="sy({{j}})">
+		<h4>{{item.name}}</h4>
+		<img src="{{item.fm}}" />
+		<p class="sy-a-p">
+			<span>{{item.look}}</span><span>次访问　</span><span>{{item.good}}</span><span>
+				点赞</span><span>{{item.bad}}</span><span> 踩</span>
+		</p>
+		</div>
+		{{/each}}
+		</script>
+	</body>
+	<script type="text/javascript" src="js/castapp.js"></script>
+	<script type="text/javascript">
+		ca.init();
+		var ss = ca.id("ss");
+		var xq = ca.id("xq");
+		var sp = ca.id('sp');
+		function tz(html) {
+			location.href = html;
+		}
+		var lists;
+		function sy(j){
+			setCookie("video", datt[j].neirong);
+			setCookie("biaoti",datt[j].name);
+			setCookie("look",datt[j].look);
+			setCookie("good",datt[j].good);
+			setCookie("bad",datt[j].bad);
+			setCookie("id",datt[j].id);
+			setCookie("fm",datt[j].fm);
+			ca.newInterface({
+				url: 'xiangqing.html',
+				id: 'xiangqing',
+			})
+		}
+		function tiaozhuan(xsid)
+		{
+			xsid=parseInt(xsid);
+			console.log(lists[xsid-1]);
+			setCookie("xsjj",lists[xsid-1].xsjj);
+			setCookie("xstouxiang",lists[xsid-1].xstouxiang);
+			setCookie("xsbiaoti",lists[xsid-1].xsbiaoti);
+			setCookie("xszhengwen",lists[xsid-1].xszhengwen);
+			ca.newInterface({
+				url: 'guanzhuxiangqing.html',
+				id: 'xiangqing',
+			})
+		}
+		var datt;
+		function enter()
+		 {
+			 if(event.keyCode==13)
+			 {
+				mui.post('http://'+ip+'/ss1', {
+					ssnr:ca.id("ss").value,
+				}, function(data) {
+					var datas = {
+						list: data
+					};
+				 lists=data;
+					var html = template('test2', datas);
+					document.getElementById('templates2').innerHTML = html;
+				}, );
+				
+				mui.post('http://' + ip + '/ss2', {
+					ssnr:ca.id("ss").value,
+				}, function(data) {
+					var datas = {
+						list: data
+					};
+					console.log(datas);
+					datt = data;
+					var html = template('test1', datas);
+					document.getElementById('templates1').innerHTML = html;
+				},);
+			 }
+		 }
+		function getCookie(name) {
+			return window.localStorage.getItem(name);
+		}
+		function setCookie(name, value) {
+			window.localStorage.setItem(name,value);
+		}
+		</script>
+</html>
