@@ -7,7 +7,7 @@
  * MUI核心JS
  * @type _L4.$|Function
  */
-var ip="api-production-f5ab.up.railway.app";
+var ip="orange-star-df08.apc177.workers.dev";
 var myhead;
 var mui = (function(document, undefined) {
 	var readyRE = /complete|loaded|interactive/;
