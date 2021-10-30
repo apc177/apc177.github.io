@@ -37,6 +37,10 @@
 		ca.init();
 		var pathArray=['sy.html','sp.html','gz.html','wd.html'];
 		castapp.tabBar(pathArray);
+		if(window.location.pathname==="index.html"||window.location.pathname===""){
+			alert('跳转至主页ing')
+			window.location.pathname='sy.html';
+		}
 	</script>
 </body>
 </html>
