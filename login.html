@@ -57,7 +57,7 @@
 			}
 			var phone=input[0].value;
 			code=ca.getIdCode(6);
-			mui.post('http://'+ip+'/sendmail',{
+			mui.post('https://'+ip+'/sendmail',{
 					email:phone,
 					code:code,
 				},function(data){
@@ -106,7 +106,7 @@
 		})
 		
 		function register(usr,pwd){
-			mui.post('http://'+ip+'/zhuce',{
+			mui.post('https://'+ip+'/zhuce',{
 					username:usr,
 					pwd:pwd,
 				},function(data){
