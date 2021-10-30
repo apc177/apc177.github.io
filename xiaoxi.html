@@ -45,7 +45,7 @@
 		function setCookie(name, value) {
 			window.localStorage.setItem(name, value);
 		}
-		mui.post('http://' + ip + '/gz3', {
+		mui.post('https://' + ip + '/gz3', {
 			woname:getCookie("zhanghao"),
 		}, function(data) {
 			var datas = {
