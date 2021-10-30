@@ -91,7 +91,7 @@ http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 	
 	btn1.addEventListener('tap', function() {
 		console.log(222);
-		mui.post('http://' + ip + '/sc1', {
+		mui.post('https://' + ip + '/sc1', {
 			scname: getCookie("biaoti"),
 			scsj: new Date().toLocaleString(),
 			sctupian: getCookie("fm"),
@@ -109,7 +109,7 @@ http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 			}
 		})
 	})
-	mui.post('http://' + ip + '/pl1', {
+	mui.post('https://' + ip + '/pl1', {
 		spid: parseInt(getCookie("id")),
 	}, function(data) {
 		var datass = {
@@ -121,7 +121,7 @@ http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 	}, );
 	function gz(gzname,gztouxiang){
 		if(gzname==getCookie("zhanghao")){ca.prompt("不能关注自己");return;}
-		mui.post('http://' + ip + '/gz1', {
+		mui.post('https://' + ip + '/gz1', {
 			woname:getCookie("zhanghao"),
 			wotouxiang:getCookie("touxiang"),
 			gzname:gzname,
@@ -132,7 +132,7 @@ http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 			})
 	};
 	function register(spid, yhname, yhtouxiang, plneirong, shijian) {
-		mui.post('http://' + ip + '/pl2', {
+		mui.post('https://' + ip + '/pl2', {
 				spid: parseInt(spid),
 				yhname: yhname,
 				yhtouxiang: yhtouxiang,
@@ -140,7 +140,7 @@ http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 				shijian: shijian,
 			}, function(data) {
 				console.log(yhname, yhtouxiang, plneirong, shijian);
-				mui.post('http://' + ip + '/pl1', {
+				mui.post('https://' + ip + '/pl1', {
 					spid: parseInt(spid),
 				}, function(data) {
 					var datass = {
@@ -169,20 +169,20 @@ http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 	iframe['width'] = 370;
 	iframe['height'] = 200;
 	var id = getCookie("id");
-	mui.post('http://' + ip + '/xiangqing1?id=' + id);
+	mui.post('https://' + ip + '/xiangqing1?id=' + id);
 	document.getElementById("ifame").appendChild(iframe);
 	
 	function zan() {
 		document.getElementById('good').innerHTML = parseInt(document.getElementById('good').innerHTML) + 1;
 		setCookie('good', document.getElementById('good').innerHTML);
-		mui.post("http://"+ip+"/xiangqing2?id=" + id);
+		mui.post("https://"+ip+"/xiangqing2?id=" + id);
 		setCookie("")
 	}
 
 	function cai() {
 		document.getElementById('bad').innerHTML = parseInt(document.getElementById('bad').innerHTML) + 1;
 		setCookie('bad', document.getElementById('bad').innerHTML);
-		mui.post("http://"+ip+"/xiangqing3?id=" + id,{},function(data){
+		mui.post("https://"+ip+"/xiangqing3?id=" + id,{},function(data){
 			
 		});
 	}
