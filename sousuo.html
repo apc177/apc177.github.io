@@ -129,7 +129,7 @@ http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 		 {
 			 if(event.keyCode==13)
 			 {
-				mui.post('http://'+ip+'/ss1', {
+				mui.post('https://'+ip+'/ss1', {
 					ssnr:ca.id("ss").value,
 				}, function(data) {
 					var datas = {
@@ -140,7 +140,7 @@ http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 					document.getElementById('templates2').innerHTML = html;
 				}, );
 				
-				mui.post('http://' + ip + '/ss2', {
+				mui.post('https://' + ip + '/ss2', {
 					ssnr:ca.id("ss").value,
 				}, function(data) {
 					var datas = {
