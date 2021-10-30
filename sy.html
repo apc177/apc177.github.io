@@ -157,7 +157,7 @@ http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 			location.href = html;
 		}
 		var datt;
-		mui.post('http://' + ip + '/sp1', {}, function(data) {
+		mui.post('https://' + ip + '/sp1', {}, function(data) {
 			var datas = {
 				list: data
 			};
@@ -166,7 +166,7 @@ http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 			var html = template('test1', datas);
 			document.getElementById('templates').innerHTML = html;
 		},);
-		mui.post('http://'+ip+'/xs', {}, function(data) {
+		mui.post('https://'+ip+'/xs', {}, function(data) {
 			var datas = {
 				list: data
 			};
