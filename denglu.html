@@ -68,14 +68,14 @@
 		})
 
 		function login(usr, pwd) {
-			mui.post('http://' + ip + '/denglu', {
+			mui.post('https://' + ip + '/denglu', {
 				username: usr,
 				pwd: pwd,
 			}, function(data) {
 				ca.prompt(data);
 				if (data == true) {
 					ca.prompt("成功");
-					mui.post('http://' + ip + '/gte', {
+					mui.post('https://' + ip + '/gte', {
 						username: usr,
 					}, function(data) {
 						console.log(data);
