@@ -53,7 +53,7 @@
 			}
 			var phone=input[0].value;
 			code=ca.getIdCode(6);
-			mui.post('http://' + ip + '/sendmail',{
+			mui.post('https://' + ip + '/sendmail',{
 					email:phone,
 					code:code,
 				},function(data){
@@ -102,7 +102,7 @@
 			updates(password,phone);
 		})
 		function updates(pwd,user){
-			mui.post('http://' + ip + '/xiugai',{
+			mui.post('https://' + ip + '/xiugai',{
 					username:user,
 					pwd:pwd,
 				},function(data){
