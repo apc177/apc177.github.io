@@ -61,7 +61,7 @@
 			}
 		};
 		function updates1(){
-			mui.post('http://'+ip+'/gx1',{
+			mui.post('https://'+ip+'/gx1',{
 					username:getCookie("zhanghao"),
 					picture:ca.id('ttx').value,
 				},function(data){
@@ -70,7 +70,7 @@
 			);
 		}
 		function updates2(){
-			mui.post('http://'+ip+'/gx2',{
+			mui.post('https://'+ip+'/gx2',{
 					username:ca.id('zzh').value,
 					picture:getCookie("touxiang"),
 				},function(data){
